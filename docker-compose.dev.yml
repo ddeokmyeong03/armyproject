@@ -37,7 +37,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/selfdev?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: selfdev
       SPRING_DATASOURCE_PASSWORD: selfdevpass
-      JWT_SECRET: dev-only-secret-do-not-use-in-production
+      JWT_SECRET: 7lsu2qBdFT197HEx+9MWSsbIPY9gHXhWqTowkrWJtZ6MWL34AhvM2bKE8arTtoNxQPy+WglaULQ0p8263bq04g==
       TZ: Asia/Seoul
     ports:
       - "8080:8080"
