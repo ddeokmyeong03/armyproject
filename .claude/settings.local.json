@@ -8,7 +8,8 @@
       "Bash(cmd //c \"mvn -version\")",
       "Bash(cmd //c \"docker version\")",
       "Bash(powershell -Command \"Get-Command java -ErrorAction SilentlyContinue | Select-Object Source; Get-Command mvn -ErrorAction SilentlyContinue | Select-Object Source; Get-Command docker -ErrorAction SilentlyContinue | Select-Object Source\")",
-      "Bash(npm install)"
+      "Bash(npm install)",
+      "Bash(openssl rand -base64 64)"
     ]
   }
 }

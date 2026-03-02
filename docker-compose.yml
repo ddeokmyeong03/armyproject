@@ -1,46 +1,18 @@
 services:
-  db:
-    image: mysql:8.0
-    container_name: selfdev-mysql
-    env_file: .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: Asia/Seoul
-    # 포트 3306 은 외부에 노출하지 않음 (컨테이너 내부 통신만 허용)
-    volumes:
-      - mysql-data:/var/lib/mysql
-    command: >
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
-      --default-time-zone=+09:00
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-    restart: unless-stopped
-
   app:
     build: .
     container_name: selfdev-app
-    depends_on:
-      db:
-        condition: service_healthy
     env_file: .env
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/selfdev?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://${DB_HOST}:3306/${DB_NAME}?useSSL=true&requireSSL=true&verifyServerCertificate=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       JWT_ACCESS_EXPIRY: ${JWT_ACCESS_EXPIRY:-900000}
       JWT_REFRESH_EXPIRY: ${JWT_REFRESH_EXPIRY:-604800000}
       TZ: Asia/Seoul
-    # 포트 8080 은 외부에 노출하지 않음 (nginx 만 접근)
+    # 포트 8080은 외부에 노출하지 않음 (nginx만 접근)
     restart: unless-stopped
 
   frontend:
@@ -54,9 +26,5 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      # HTTPS 인증서 마운트 (Let's Encrypt 사용 시)
       - ./certs:/etc/nginx/certs:ro
     restart: unless-stopped
-
-volumes:
-  mysql-data:
