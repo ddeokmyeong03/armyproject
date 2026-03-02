@@ -27,9 +27,10 @@ function ProfileSection() {
 
   function onSubmit(data) {
     updateMe.mutate({
-      ...data,
-      dailyMinutes: Number(data.dailyMinutes),
-      goalPriorities: data.goalPriorities ?? [],
+      nickname: data.nickname,
+      discharge_date: data.dischargeDate,
+      daily_minutes: Number(data.dailyMinutes),
+      goal_priorities: data.goalPriorities ?? [],
     });
   }
 

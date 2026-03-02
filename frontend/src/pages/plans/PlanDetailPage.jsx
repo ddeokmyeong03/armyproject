@@ -50,7 +50,7 @@ function AddGoalModal({ planId, open, onClose }) {
   const createGoal = useCreateGoal(planId);
 
   function onSubmit(data) {
-    createGoal.mutate({ ...data, targetCount: Number(data.targetCount) }, {
+    createGoal.mutate({ title: data.title, category: data.category, target_count: Number(data.targetCount) }, {
       onSuccess: () => { reset(); onClose(); },
     });
   }
@@ -127,7 +127,7 @@ function AddTaskForm({ planId, date }) {
   const createTask = useCreateTask(planId);
 
   function onSubmit(data) {
-    createTask.mutate({ ...data, scheduledDate: date }, {
+    createTask.mutate({ title: data.title, scheduled_date: date }, {
       onSuccess: () => reset(),
     });
   }

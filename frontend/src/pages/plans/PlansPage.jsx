@@ -38,7 +38,7 @@ function CreatePlanModal({ open, onClose }) {
   const createPlan = useCreatePlan();
 
   function onSubmit(data) {
-    createPlan.mutate(data, {
+    createPlan.mutate({ week_start: data.weekStart, memo: data.memo }, {
       onSuccess: () => {
         reset();
         onClose();

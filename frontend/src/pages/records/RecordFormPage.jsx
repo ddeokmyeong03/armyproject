@@ -56,7 +56,13 @@ export default function RecordFormPage() {
   }
 
   function onSubmit(data) {
-    const payload = { ...data, tagIds: selectedTagIds };
+    const payload = {
+      title: data.title,
+      content: data.content,
+      category: data.category,
+      activity_date: data.activityDate,
+      tag_ids: selectedTagIds,
+    };
     if (isEdit) {
       updateRecord.mutate({ recordId, data: payload }, {
         onSuccess: () => navigate(`/records/${recordId}`),

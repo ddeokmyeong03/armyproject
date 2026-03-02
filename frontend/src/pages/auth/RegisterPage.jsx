@@ -13,9 +13,12 @@ export default function RegisterPage() {
 
   function onSubmit(data) {
     registerMutation.mutate({
-      ...data,
-      dailyMinutes: Number(data.dailyMinutes),
-      goalPriorities: data.goalPriorities ?? [],
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+      discharge_date: data.dischargeDate,
+      daily_minutes: Number(data.dailyMinutes),
+      goal_priorities: data.goalPriorities ?? [],
     });
   }
 
