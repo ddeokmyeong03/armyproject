@@ -33,7 +33,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/selfdev?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/selfdev?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: selfdev
       SPRING_DATASOURCE_PASSWORD: selfdevpass
       JWT_SECRET: TXlTdXBlclNlY3JldEtleUZvckFybXlEZXZTZWxmRGV2TWFuYWdlcjIwMjZQcm9kdWN0aW9u
