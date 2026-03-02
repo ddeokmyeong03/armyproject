@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:selfdev_test;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  flyway:
+    enabled: false  # H2 인메모리 테스트에서는 JPA DDL 사용
+
+jwt:
+  secret: TXlTdXBlclNlY3JldEtleUZvckFybXlEZXZTZWxmRGV2TWFuYWdlcjIwMjZQcm9kdWN0aW9u
+  access-expiry: 900000
+  refresh-expiry: 604800000

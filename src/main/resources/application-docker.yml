@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiry: ${JWT_ACCESS_EXPIRY:900000}
+  refresh-expiry: ${JWT_REFRESH_EXPIRY:604800000}
+
+logging:
+  level:
+    com.armydev.selfdev: INFO
+    org.springframework.security: WARN
