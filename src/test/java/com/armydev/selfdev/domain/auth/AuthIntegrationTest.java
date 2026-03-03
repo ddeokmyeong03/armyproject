@@ -37,18 +37,18 @@ class AuthIntegrationTest {
             "email", "test@army.mil",
             "password", "Soldier1!",
             "nickname", "김병사",
-            "dischargeDate", "2027-12-31",
-            "dailyMinutes", 60,
-            "goalPriorities", new String[]{"CERT", "ENGLISH"}
+            "discharge_date", "2027-12-31",
+            "daily_minutes", 60,
+            "goal_priorities", new String[]{"CERT", "ENGLISH"}
         );
 
         mockMvc.perform(post(REGISTER_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.data.accessToken").isNotEmpty())
-            .andExpect(jsonPath("$.data.refreshToken").isNotEmpty())
-            .andExpect(jsonPath("$.data.tokenType").value("Bearer"));
+            .andExpect(jsonPath("$.data.access_token").isNotEmpty())
+            .andExpect(jsonPath("$.data.refresh_token").isNotEmpty())
+            .andExpect(jsonPath("$.data.token_type").value("Bearer"));
     }
 
     @Test
@@ -58,9 +58,9 @@ class AuthIntegrationTest {
             "email", "dup@army.mil",
             "password", "Soldier1!",
             "nickname", "중복유저",
-            "dischargeDate", "2027-12-31",
-            "dailyMinutes", 60,
-            "goalPriorities", new String[]{"CERT"}
+            "discharge_date", "2027-12-31",
+            "daily_minutes", 60,
+            "goal_priorities", new String[]{"CERT"}
         );
 
         mockMvc.perform(post(REGISTER_URL)
@@ -82,9 +82,9 @@ class AuthIntegrationTest {
             "email", "weak@army.mil",
             "password", "weak", // too short, no special char
             "nickname", "유저",
-            "dischargeDate", "2027-12-31",
-            "dailyMinutes", 60,
-            "goalPriorities", new String[]{"CERT"}
+            "discharge_date", "2027-12-31",
+            "daily_minutes", 60,
+            "goal_priorities", new String[]{"CERT"}
         );
 
         mockMvc.perform(post(REGISTER_URL)

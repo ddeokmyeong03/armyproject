@@ -4,6 +4,7 @@ import com.armydev.selfdev.common.response.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,6 +55,22 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now().format(FORMATTER),
                 request.getRequestURI(),
                 fieldErrors
+            )));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<?>> handleNotReadable(HttpMessageNotReadableException e,
+                                                             HttpServletRequest request) {
+        ErrorCode code = ErrorCode.VALIDATION_ERROR;
+        return ResponseEntity
+            .status(code.getStatus())
+            .body(ApiResponse.error(new ApiResponse.ErrorBody(
+                code.getCode(),
+                "요청 본문을 읽을 수 없습니다.",
+                code.getStatus().value(),
+                LocalDateTime.now().format(FORMATTER),
+                request.getRequestURI(),
+                null
             )));
     }
 
