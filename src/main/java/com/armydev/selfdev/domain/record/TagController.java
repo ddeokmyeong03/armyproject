@@ -1,5 +1,7 @@
 package com.armydev.selfdev.domain.record;
 
+import com.armydev.selfdev.common.exception.BusinessException;
+import com.armydev.selfdev.common.exception.ErrorCode;
 import com.armydev.selfdev.common.response.ApiResponse;
 import com.armydev.selfdev.security.SecurityUser;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +36,11 @@ public class TagController {
     public ResponseEntity<ApiResponse<Map<String, Object>>> createTag(
             @AuthenticationPrincipal SecurityUser securityUser,
             @RequestBody Map<String, String> body) {
-        Map<String, Object> tag = tagService.createTag(securityUser.getUserId(), body.get("name"));
+        String name = body.get("name");
+        if (name == null || name.isBlank()) {
+            throw new BusinessException(ErrorCode.VALIDATION_ERROR);
+        }
+        Map<String, Object> tag = tagService.createTag(securityUser.getUserId(), name);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(tag));
     }
 

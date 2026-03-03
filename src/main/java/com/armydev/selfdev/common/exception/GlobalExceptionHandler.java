@@ -74,6 +74,22 @@ public class GlobalExceptionHandler {
             )));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse<?>> handleIllegalArgument(IllegalArgumentException e,
+                                                                 HttpServletRequest request) {
+        ErrorCode code = ErrorCode.VALIDATION_ERROR;
+        return ResponseEntity
+            .status(code.getStatus())
+            .body(ApiResponse.error(new ApiResponse.ErrorBody(
+                code.getCode(),
+                e.getMessage(),
+                code.getStatus().value(),
+                LocalDateTime.now().format(FORMATTER),
+                request.getRequestURI(),
+                null
+            )));
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiResponse<?>> handleAccessDenied(AccessDeniedException e, HttpServletRequest request) {
         ErrorCode code = ErrorCode.FORBIDDEN;

@@ -58,7 +58,6 @@ public class RecordService {
             .activityDate(request.getActivityDate())
             .category(request.getCategory())
             .build();
-        record = recordRepository.save(record);
 
         if (request.getTagIds() != null && !request.getTagIds().isEmpty()) {
             linkTags(record, userId, request.getTagIds());

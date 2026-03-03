@@ -18,7 +18,8 @@ export default function RoadmapDetailPage() {
   const alreadyApplied = myRoadmaps.some((ur) => ur.roadmap?.id === roadmap.id);
 
   function handleApply() {
-    apply.mutate({ roadmapId: roadmap.id }, {
+    const today = new Date().toISOString().slice(0, 10);
+    apply.mutate({ roadmap_id: roadmap.id, started_at: today }, {
       onSuccess: () => navigate('/roadmaps'),
     });
   }
@@ -38,7 +39,7 @@ export default function RoadmapDetailPage() {
           <div>
             <div className="flex items-center gap-2 mb-2 flex-wrap">
               <CategoryBadge category={roadmap.category} />
-              <span className="text-xs text-gray-400">{roadmap.totalWeeks}주 과정</span>
+              <span className="text-xs text-gray-400">{roadmap.durationWeeks}주 과정</span>
             </div>
             <h1 className="text-lg font-bold text-gray-900 mb-1">{roadmap.title}</h1>
             {roadmap.description && (
@@ -77,9 +78,9 @@ export default function RoadmapDetailPage() {
                     {week.weekNumber}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-medium text-gray-800">{week.title}</h3>
-                    {week.description && (
-                      <p className="text-xs text-gray-500 mt-0.5">{week.description}</p>
+                    <h3 className="text-sm font-medium text-gray-800">{week.goalTitle}</h3>
+                    {week.taskTitles?.length > 0 && (
+                      <p className="text-xs text-gray-500 mt-0.5">{week.taskTitles.join(', ')}</p>
                     )}
                   </div>
                 </div>
