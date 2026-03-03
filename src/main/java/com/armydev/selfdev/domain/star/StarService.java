@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class StarService {
@@ -43,11 +45,9 @@ public class StarService {
     }
 
     @Transactional(readOnly = true)
-    public StarResponse getStar(Long userId, Long recordId) {
+    public Optional<StarResponse> getStar(Long userId, Long recordId) {
         recordService.findRecord(userId, recordId);
-        Star star = starRepository.findByRecordId(recordId)
-            .orElseThrow(() -> new BusinessException(ErrorCode.STAR_NOT_FOUND));
-        return new StarResponse(star);
+        return starRepository.findByRecordId(recordId).map(StarResponse::new);
     }
 
     @Transactional

@@ -9,17 +9,20 @@ import { extractApiError } from '../../utils/apiError';
 
 function StarForm({ recordId, existing }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: existing ?? {},
+    defaultValues: existing
+      ? { situation: existing.situation, task_desc: existing.taskDesc, action: existing.action, result: existing.result }
+      : {},
   });
   const createStar = useCreateStar();
   const updateStar = useUpdateStar();
   const isEdit = !!existing;
 
   function onSubmit(data) {
+    const payload = { situation: data.situation, task_desc: data.task_desc, action: data.action, result: data.result };
     if (isEdit) {
-      updateStar.mutate({ recordId, data });
+      updateStar.mutate({ recordId, data: payload });
     } else {
-      createStar.mutate({ recordId, data });
+      createStar.mutate({ recordId, data: payload });
     }
   }
 
@@ -30,7 +33,7 @@ function StarForm({ recordId, existing }) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {[
         { field: 'situation', label: 'S — Situation (상황)', placeholder: '어떤 상황이었나요?' },
-        { field: 'task', label: 'T — Task (역할)', placeholder: '내가 맡은 역할은 무엇이었나요?' },
+        { field: 'task_desc', label: 'T — Task (역할)', placeholder: '내가 맡은 역할은 무엇이었나요?' },
         { field: 'action', label: 'A — Action (행동)', placeholder: '어떤 행동을 했나요?' },
         { field: 'result', label: 'R — Result (결과)', placeholder: '어떤 결과가 있었나요?' },
       ].map(({ field, label, placeholder }) => (
@@ -130,7 +133,7 @@ export default function RecordDetailPage() {
           <div className="space-y-4">
             {[
               { label: 'S — Situation', value: star.situation },
-              { label: 'T — Task', value: star.task },
+              { label: 'T — Task', value: star.taskDesc },
               { label: 'A — Action', value: star.action },
               { label: 'R — Result', value: star.result },
             ].map(({ label, value }) => (

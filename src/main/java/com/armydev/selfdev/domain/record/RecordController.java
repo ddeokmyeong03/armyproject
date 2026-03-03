@@ -92,7 +92,7 @@ public class RecordController {
     public ResponseEntity<ApiResponse<StarResponse>> getStar(
             @AuthenticationPrincipal SecurityUser securityUser,
             @PathVariable Long recordId) {
-        StarResponse response = starService.getStar(securityUser.getUserId(), recordId);
+        StarResponse response = starService.getStar(securityUser.getUserId(), recordId).orElse(null);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
