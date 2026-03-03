@@ -11,7 +11,7 @@ export async function login(data) {
 }
 
 export async function refresh(refreshToken) {
-  const res = await client.post('/auth/refresh', { refreshToken });
+  const res = await client.post('/auth/refresh', { refresh_token: refreshToken });
   return res.data.data;
 }
 

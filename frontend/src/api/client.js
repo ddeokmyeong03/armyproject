@@ -60,7 +60,7 @@ client.interceptors.response.use(
       }
 
       try {
-        const res = await axios.post('/api/v1/auth/refresh', { refreshToken });
+        const res = await axios.post('/api/v1/auth/refresh', { refresh_token: refreshToken });
         const tokens = camelcaseKeys(res.data.data ?? res.data, { deep: true });
         useAuthStore.getState().updateTokens(tokens);
         processQueue(null, tokens.accessToken);
