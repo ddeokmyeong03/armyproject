@@ -19,3 +19,7 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Vim swap files
+*.swp
+*.swo

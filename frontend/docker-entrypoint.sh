@@ -1,10 +1,11 @@
 #!/bin/sh
 set -e
 
-# BACKEND_URL이 설정된 경우에만 템플릿 처리 (Railway 환경)
-# 없으면 볼륨 마운트된 설정 파일 사용 (로컬 dev 환경)
-if [ -n "$BACKEND_URL" ]; then
-    envsubst '$BACKEND_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf
-fi
+# Railway 환경: PORT와 BACKEND_URL을 템플릿에 주입
+# 로컬 dev 환경에서도 기본값으로 동작
+export PORT="${PORT:-80}"
+export BACKEND_URL="${BACKEND_URL:-http://localhost:8080}"
+
+envsubst '$PORT $BACKEND_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf
 
 exec nginx -g 'daemon off;'
