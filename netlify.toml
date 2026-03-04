@@ -4,5 +4,4 @@
   publish = "dist"
 
 [build.environment]
-  VITE_API_BASE_URL = "https://your-backend-SERVICE_HASH-REGION.a.run.app/api/v1"
-  # Netlify 대시보드 → Site settings → Environment variables 에서 실제 Cloud Run 서비스 URL로 설정하세요
+  VITE_API_BASE_URL = "https://armyproject-git-719982307523.europe-west1.run.app/api/v1"
