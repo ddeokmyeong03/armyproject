@@ -36,7 +36,7 @@ spring:
 
 jwt:
   secret: TXlTdXBlclNlY3JldEtleUZvckFybXlEZXZTZWxmRGV2TWFuYWdlcjIwMjZQcm9kdWN0aW9u
-  access-expiry: 900000      # 15 minutes
+  access-expiry: 3600000     # 1 hour
   refresh-expiry: 604800000  # 7 days
 
 springdoc:

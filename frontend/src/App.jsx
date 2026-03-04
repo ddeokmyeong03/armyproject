@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import Layout from './components/layout/Layout';
+import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -17,14 +18,24 @@ function RequireAuth({ children }) {
   const accessToken = useAuthStore((s) => s.accessToken);
   const refreshToken = useAuthStore.getState().getRefreshToken();
   if (!accessToken && !refreshToken) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return children;
+}
+
+function LandingOrDashboard() {
+  const accessToken = useAuthStore((s) => s.accessToken);
+  const refreshToken = useAuthStore.getState().getRefreshToken();
+  if (accessToken || refreshToken) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <LandingPage />;
 }
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<LandingOrDashboard />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route
@@ -35,7 +46,6 @@ export default function App() {
           </RequireAuth>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="plans" element={<PlansPage />} />
         <Route path="plans/:planId" element={<PlanDetailPage />} />
@@ -47,7 +57,7 @@ export default function App() {
         <Route path="roadmaps/:roadmapId" element={<RoadmapDetailPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
