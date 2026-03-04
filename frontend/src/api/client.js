@@ -2,8 +2,10 @@ import axios from 'axios';
 import camelcaseKeys from 'camelcase-keys';
 import { useAuthStore } from '../store/authStore';
 
+const BASE = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
+
 const client = axios.create({
-  baseURL: '/api/v1',
+  baseURL: BASE,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -60,7 +62,7 @@ client.interceptors.response.use(
       }
 
       try {
-        const res = await axios.post('/api/v1/auth/refresh', { refresh_token: refreshToken });
+        const res = await axios.post(`${BASE}/auth/refresh`, { refresh_token: refreshToken });
         const tokens = camelcaseKeys(res.data.data ?? res.data, { deep: true });
         useAuthStore.getState().updateTokens(tokens);
         processQueue(null, tokens.accessToken);
