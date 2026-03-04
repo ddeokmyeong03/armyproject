@@ -59,10 +59,19 @@ export default function RegisterPage() {
               <input
                 type="password"
                 className="input-base"
-                placeholder="8자 이상"
-                {...register('password', { required: '비밀번호를 입력해주세요', minLength: { value: 8, message: '8자 이상 입력해주세요' } })}
+                placeholder="영문 + 숫자 + 특수문자 8자 이상"
+                {...register('password', {
+                  required: '비밀번호를 입력해주세요',
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                    message: '영문, 숫자, 특수문자(@$!%*#?&)를 각각 1개 이상 포함해야 합니다.',
+                  },
+                })}
               />
-              {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
+              {errors.password
+                ? <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+                : <p className="text-xs text-gray-400 mt-1">영문 + 숫자 + 특수문자(@$!%*#?&) 8자 이상</p>
+              }
             </div>
 
             <div>

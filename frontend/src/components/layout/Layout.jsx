@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import { useLogout } from '../../hooks/useAuth';
 import { useAuthStore } from '../../store/authStore';
@@ -11,15 +12,33 @@ const NAV_ITEMS = [
 ];
 
 export default function Layout() {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
 
+  const closeMobile = () => setMobileOpen(false);
+
   return (
     <div className="flex h-screen bg-gray-50">
+      {/* 모바일 오버레이 */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-20 md:hidden"
+          onClick={closeMobile}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-52 bg-military-800 text-white flex flex-col shrink-0">
+      <aside
+        className={`
+          fixed md:static inset-y-0 left-0 z-30
+          w-52 bg-military-800 text-white flex flex-col shrink-0
+          transition-transform duration-200 ease-in-out
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}
+      >
         <div className="px-4 py-5 border-b border-military-700">
-          <h1 className="text-sm font-bold tracking-wide">병사 자기개발</h1>
+          <h1 className="text-sm font-bold tracking-wide">millog</h1>
           {user && (
             <p className="text-xs text-military-300 mt-1 truncate">{user.nickname}</p>
           )}
@@ -30,6 +49,7 @@ export default function Layout() {
             <NavLink
               key={to}
               to={to}
+              onClick={closeMobile}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${
                   isActive
@@ -55,10 +75,24 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
-        <Outlet />
-      </main>
+      {/* Main area */}
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        {/* 모바일 상단 헤더 */}
+        <header className="md:hidden flex items-center gap-3 px-4 py-3 bg-military-800 text-white shrink-0">
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="text-xl leading-none text-military-200 hover:text-white"
+            aria-label="메뉴 열기"
+          >
+            ☰
+          </button>
+          <span className="text-sm font-bold tracking-wide">millog</span>
+        </header>
+
+        <main className="flex-1 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
